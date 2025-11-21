@@ -3,8 +3,8 @@ import telebot
 import time
 
 # Более надежное получение переменных
-TOKEN = os.getenv('BOT_TOKEN')
-GROUP_ID = os.getenv('GROUP_ID')
+TOKEN = os.getenv('8260437183:AAG2NNbMPhsvkWjkxYaxAjceNm9jward6UA')
+GROUP_ID = os.getenv('-1003396901780')
 
 # Проверка что переменные установлены
 if not TOKEN:
